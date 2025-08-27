@@ -1,0 +1,27 @@
+name: Release Plugin
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Package plugin
+        run: |
+          mkdir openrouter
+          mv LICENSE README.md hook.php openrouter.xml setup.php src templates openrouter/
+          version=$(echo ${{ github.ref_name }} | sed 's/v//')
+          tar -czf openrouter-${version}.tar.gz openrouter/
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          files: openrouter-*.tar.gz
