@@ -3,8 +3,6 @@
 namespace GlpiPlugin\Openrouter;
 
 use CommonGLPI;
-use Dropdown;
-use Html;
 use Session;
 use Glpi\Application\View\TemplateRenderer;
 

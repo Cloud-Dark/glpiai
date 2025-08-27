@@ -39,12 +39,17 @@ function plugin_version_openrouter() {
 }
 
 function plugin_openrouter_check_config($verbose = false) {
-    if (true) { // Your configuration check
+    $config = \GlpiPlugin\Openrouter\Config::getConfig();
+    $api_key = $config['openrouter_api_key'] ?? '';
+    $model_name = $config['openrouter_model_name'] ?? '';
+    $bot_user_id = $config['openrouter_bot_user_id'] ?? 0;
+
+    if (!empty($api_key) && !empty($model_name) && !empty($bot_user_id)) {
         return true;
     }
 
     if ($verbose) {
-        echo "Installed / not configured";
+        _e('Plugin not configured. Please provide API key, model name and bot user ID.', 'openrouter');
     }
     return false;
 }

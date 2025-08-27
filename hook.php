@@ -1,5 +1,7 @@
 <?php
 
+use Toolbox;
+
 function plugin_openrouter_install() {
     \Config::setConfigurationValues('plugin:openrouter', [
         'openrouter_api_key' => '',
@@ -34,20 +36,12 @@ function plugin_openrouter_item_add($item) {
         return;
     }
 
-    // Do not process items created by the bot
-    if ($item->getType() === 'Ticket' && $item->fields['users_id_recipient'] == $bot_user_id) {
-        return;
-    }
-    if ($item->getType() === 'TicketFollowup' && $item->fields['users_id'] == $bot_user_id) {
-        return;
-    }
-
     $content = $item->fields['content'] ?? '';
-    if (empty($content)) {
+    if (empty($content) || strpos($content, '<!-- openrouter_bot_response -->') !== false) {
         return;
     }
 
-    $system_prompt = "You are a basic system and network technician. Your role is to provide initial support for user requests. If you can solve the problem, provide a clear and concise solution. If the problem is outside your scope of knowledge or requires manual intervention, you must escalate the ticket to a human system administrator by responding with the following exact phrase and nothing else: 'I am unable to resolve this issue and have escalated it to a system administrator.'";
+    $system_prompt = "You are an AI assistant acting as a Level 1 IT support technician for the company. Your name is 'OpenRouter Bot'. You must be professional and courteous in all your responses. Your primary goal is to resolve common user issues based on the provided ticket information.\n\nWhen responding to a user, please follow these guidelines:\n1.  Analyze the user's request carefully.\n2.  If the request is clear and you can provide a solution, offer a step-by-step guide.\n3.  If the request is unclear, ask for more information. Be specific about what you need.\n4.  If the issue is complex or requires administrative privileges you don't have, you must escalate the ticket. To do so, respond with the following exact phrase and nothing else: 'I am unable to resolve this issue and have escalated it to a system administrator.'\n5.  Do not invent solutions or provide information you are not sure about.\n6.  Always sign your responses with your name, 'OpenRouter Bot'.";
 
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, "https://openrouter.ai/api/v1/chat/completions");
@@ -69,8 +63,11 @@ function plugin_openrouter_item_add($item) {
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
     $result = curl_exec($ch);
-    if (curl_errno($ch)) {
-        // handle curl error
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    if (curl_errno($ch) || $http_code != 200) {
+        $error_message = "OpenRouter API error: " . curl_error($ch) . " (HTTP code: " . $http_code . "). Response: " . $result;
+        Toolbox::logError($error_message);
+        curl_close($ch);
         return;
     }
     curl_close($ch);
@@ -82,7 +79,7 @@ function plugin_openrouter_item_add($item) {
         $followup = new \TicketFollowup();
         $followup_data = [
             'tickets_id' => ($item->getType() === 'Ticket') ? $item->getID() : $item->fields['tickets_id'],
-            'content' => $response_content,
+            'content' => $response_content . "\n\n<!-- openrouter_bot_response -->",
             'is_private' => 0,
             'users_id' => $bot_user_id,
         ];
