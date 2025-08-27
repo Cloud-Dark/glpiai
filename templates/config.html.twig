@@ -1,0 +1,32 @@
+{% import "components/form/fields_macros.html.twig" as fields %}
+
+{% if can_edit %}
+    <form name="form" action="{{ "Config"|itemtype_form_path }}" method="POST">
+        <input type="hidden" name="config_class" value="GlpiPlugin\\Openrouter\\Config">
+        <input type="hidden" name="config_context" value="plugin:openrouter">
+        <input type="hidden" name="_glpi_csrf_token" value="{{ csrf_token() }}">
+
+        {{ fields.textField(
+            'openrouter_api_key',
+            current_config['openrouter_api_key'],
+            __('OpenRouter API Key', 'openrouter')
+        ) }}
+
+        {{ fields.textField(
+            'openrouter_model_name',
+            current_config['openrouter_model_name'],
+            __('OpenRouter Model Name', 'openrouter')
+        ) }}
+
+        {{ fields.numberField(
+            'openrouter_bot_user_id',
+            current_config['openrouter_bot_user_id'],
+            __('Bot User ID', 'openrouter')
+        ) }}
+
+        <button type="submit" class="btn btn-primary mx-1" name="update" value="1">
+            <i class="ti ti-device-floppy"></i>
+            <span>{{ _x('button', 'Save') }}</span>
+        </button>
+    </form>
+{% endif %}

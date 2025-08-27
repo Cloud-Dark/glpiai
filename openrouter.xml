@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+   <name>OpenRouter</name>
+   <key>openrouter</key>
+   <state>stable</state>
+   <logo></logo>
+   <description>
+      <short>
+         <en>Use OpenRouter to respond to tickets with an LLM.</en>
+         <fr>Utilisez OpenRouter pour répondre aux tickets avec un LLM.</fr>
+      </short>
+      <long>
+         <en>This plugin allows you to use an LLM from OpenRouter to automatically respond to user tickets. The administrator can configure the API key, the model to use, and the user ID of the bot.</en>
+         <fr>Ce plugin vous permet d'utiliser un LLM d'OpenRouter pour répondre automatiquement aux tickets des utilisateurs. L'administrateur peut configurer la clé API, le modèle à utiliser et l'ID utilisateur du bot.</fr>
+      </long>
+   </description>
+   <homepage></homepage>
+   <download></download>
+   <issues></issues>
+   <readme></readme>
+   <authors>
+      <author>Jules</author>
+   </authors>
+   <versions>
+      <version>
+         <num>1.0.0</num>
+         <compatibility>~10.0.0</compatibility>
+      </version>
+   </versions>
+   <langs>
+      <lang>en_GB</lang>
+      <lang>fr_FR</lang>
+   </langs>
+   <license>MIT</license>
+   <tags>
+      <en>
+         <tag>ai</tag>
+         <tag>openrouter</tag>
+         <tag>llm</tag>
+         <tag>ticket</tag>
+      </en>
+      <fr>
+         <tag>ia</tag>
+         <tag>openrouter</tag>
+         <tag>llm</tag>
+         <tag>ticket</tag>
+      </fr>
+   </tags>
+   <screenshots>
+   </screenshots>
+</root>
