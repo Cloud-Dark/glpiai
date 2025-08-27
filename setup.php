@@ -1,6 +1,5 @@
 <?php
 
-use Plugin;
 use Glpi\Plugin\Hooks;
 
 define('PLUGIN_OPENROUTER_VERSION', '1.0.0');
