@@ -54,3 +54,21 @@ function plugin_openrouter_check_config($verbose = false) {
     }
     return false;
 }
+
+/**
+ * @return bool
+ */
+function plugin_openrouter_install()
+{
+    // Do nothing
+    return true;
+}
+
+/**
+ * @return bool
+ */
+function plugin_openrouter_uninstall()
+{
+    // Do nothing
+    return true;
+}
