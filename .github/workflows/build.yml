@@ -13,13 +13,16 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Package plugin
+        id: package
         run: |
           mkdir openrouter
           mv LICENSE README.md hook.php openrouter.xml setup.php src templates openrouter/
-          tar -czf openrouter-1.0.0.tar.gz openrouter/
+          ARCHIVE_NAME="openrouter-${{ github.sha }}.tar.gz"
+          tar -czf $ARCHIVE_NAME openrouter/
+          echo "archive_name=$ARCHIVE_NAME" >> $GITHUB_OUTPUT
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: openrouter-plugin
-          path: openrouter-1.0.0.tar.gz
+          path: ${{ steps.package.outputs.archive_name }}
