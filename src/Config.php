@@ -9,6 +9,13 @@ use Session;
 
 class Config extends GlpiConfig
 {
+    static function getTabNameForItem(CommonGLPI $item, $withtemplate = 0)
+    {
+        if ($item->getType() == 'Config') {
+            return self::getTypeName();
+        }
+        return '';
+    }
 
     static function getTypeName($nb = 0)
     {
