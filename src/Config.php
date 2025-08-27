@@ -3,10 +3,11 @@
 namespace GlpiPlugin\Openrouter;
 
 use CommonGLPI;
-use Session;
+use Config as GlpiConfig;
 use Glpi\Application\View\TemplateRenderer;
+use Session;
 
-class Config extends \Config
+class Config extends GlpiConfig
 {
 
     static function getTypeName($nb = 0)
@@ -16,16 +17,7 @@ class Config extends \Config
 
     static function getConfig()
     {
-        return \Config::getConfigurationValues('plugin:openrouter');
-    }
-
-    function getTabNameForItem(CommonGLPI $item, $withtemplate = 0)
-    {
-        switch ($item->getType()) {
-            case \Config::class:
-                return self::createTabEntry(self::getTypeName());
-        }
-        return '';
+        return GlpiConfig::getConfigurationValues('plugin:openrouter');
     }
 
     static function displayTabContentForItem(
@@ -33,17 +25,9 @@ class Config extends \Config
         $tabnum = 1,
         $withtemplate = 0
     ) {
-        switch ($item->getType()) {
-            case \Config::class:
-                self::showForConfig($item);
-                break;
+        if ($item->getType() != 'Config') {
+            return;
         }
-
-        return true;
-    }
-
-    static function showForConfig(\Config $config) {
-        global $CFG_GLPI;
 
         if (!self::canView()) {
             return false;
@@ -58,9 +42,12 @@ class Config extends \Config
             'can_edit'       => $canedit,
             'models'         => $models
         ]);
+
+        return true;
     }
 
-    static function getModels() {
+    static function getModels()
+    {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "https://openrouter.ai/api/v1/models");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
