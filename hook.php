@@ -6,7 +6,8 @@ function plugin_openrouter_install() {
     \Config::setConfigurationValues('plugin:openrouter', [
         'openrouter_api_key' => '',
         'openrouter_model_name' => '',
-        'openrouter_bot_user_id' => 2
+        'openrouter_bot_user_id' => 2,
+        'openrouter_system_prompt' => ''
     ]);
     return true;
 }
@@ -26,6 +27,7 @@ function plugin_openrouter_item_add($item) {
     $api_key = $config['openrouter_api_key'] ?? '';
     $model_name = $config['openrouter_model_name'] ?? '';
     $bot_user_id = $config['openrouter_bot_user_id'] ?? 0;
+    $system_prompt_config = $config['openrouter_system_prompt'] ?? '';
 
     if (empty($api_key) || empty($model_name) || empty($bot_user_id)) {
         return;
@@ -42,6 +44,10 @@ function plugin_openrouter_item_add($item) {
     }
 
     $system_prompt = "You are an AI assistant acting as a Level 1 IT support technician for the company. Your name is 'OpenRouter Bot'. You must be professional and courteous in all your responses. Your primary goal is to resolve common user issues based on the provided ticket information.\n\nWhen responding to a user, please follow these guidelines:\n1.  Analyze the user's request carefully.\n2.  If the request is clear and you can provide a solution, offer a step-by-step guide.\n3.  If the request is unclear, ask for more information. Be specific about what you need.\n4.  If the issue is complex or requires administrative privileges you don't have, you must escalate the ticket. To do so, respond with the following exact phrase and nothing else: 'I am unable to resolve this issue and have escalated it to a system administrator.'\n5.  Do not invent solutions or provide information you are not sure about.\n6.  Always sign your responses with your name, 'OpenRouter Bot'.";
+
+    if (!empty($system_prompt_config)) {
+        $system_prompt = $system_prompt_config;
+    }
 
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, "https://openrouter.ai/api/v1/chat/completions");

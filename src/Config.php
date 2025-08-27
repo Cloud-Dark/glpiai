@@ -51,10 +51,26 @@ class Config extends \Config
 
         $current_config = self::getConfig();
         $canedit        = Session::haveRight(self::$rightname, UPDATE);
+        $models         = self::getModels();
 
         TemplateRenderer::getInstance()->display('@openrouter/config.html.twig', [
             'current_config' => $current_config,
-            'can_edit'       => $canedit
+            'can_edit'       => $canedit,
+            'models'         => $models
         ]);
+    }
+
+    static function getModels() {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://openrouter.ai/api/v1/models");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $result = curl_exec($ch);
+        curl_close($ch);
+
+        $response = json_decode($result, true);
+        if (isset($response['data'])) {
+            return $response['data'];
+        }
+        return [];
     }
 }
