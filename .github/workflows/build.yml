@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Package plugin
         run: |
@@ -19,7 +19,7 @@ jobs:
           tar -czf openrouter-1.0.0.tar.gz openrouter/
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: openrouter-plugin
           path: openrouter-1.0.0.tar.gz
