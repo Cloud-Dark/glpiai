@@ -26,3 +26,14 @@ The next steps, as outlined in the `README.md` roadmap, are:
 -   Allowing customization of the system prompt from the UI.
 -   Adding support for more LLM providers.
 -   Improving logging and loop prevention further.
+
+## Future Improvements
+
+### Configuration Page Refactoring
+
+The current configuration page is implemented as a tab (`addtabon`) on GLPI's general `Setup > General` page. While functional, a more modern and user-friendly approach would be to refactor it into a dedicated configuration page.
+
+This would involve:
+1.  Using the `$PLUGIN_HOOKS['config_page']` in `setup.php` to point to a dedicated file (e.g., `front/config.form.php`).
+2.  Creating the `front/config.form.php` file to handle the form display and processing logic.
+3.  This would provide a "Configure" button on the main Plugins page, which is a more standard and discoverable location for users.
