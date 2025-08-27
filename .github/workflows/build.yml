@@ -1,0 +1,25 @@
+name: Build Plugin
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Package plugin
+        run: |
+          mkdir openrouter
+          mv LICENSE README.md hook.php openrouter.xml setup.php src templates openrouter/
+          tar -czf openrouter-1.0.0.tar.gz openrouter/
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: openrouter-plugin
+          path: openrouter-1.0.0.tar.gz
