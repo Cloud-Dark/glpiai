@@ -27,9 +27,9 @@ function plugin_version_openrouter() {
     return [
         'name'           => 'OpenRouter',
         'version'        => PLUGIN_OPENROUTER_VERSION,
-        'author'         => 'Jules',
-        'license'        => 'MIT',
-        'homepage'       => '',
+        'author'         => 'Brice FOURIE',
+        'license'        => 'Apache 2.0',
+        'homepage'       => 'https://github.com/bricefourie/glpiai-openrouter',
         'requirements'   => [
             'glpi' => [
                 'min' => PLUGIN_OPENROUTER_MIN_GLPI_VERSION,
