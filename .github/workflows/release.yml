@@ -17,7 +17,7 @@ jobs:
       - name: Package plugin
         run: |
           mkdir openrouter
-          mv LICENSE README.md hook.php openrouter.xml setup.php src templates openrouter/
+          mv LICENSE README.md hook.php openrouter.xml setup.php src openrouter/
           version=$(echo ${{ github.ref_name }} | sed 's/v//')
           tar -czf openrouter-${version}.tar.gz openrouter/
 
