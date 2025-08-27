@@ -35,7 +35,8 @@ function plugin_version_openrouter() {
                 'min' => PLUGIN_OPENROUTER_MIN_GLPI_VERSION,
                 'max' => PLUGIN_OPENROUTER_MAX_GLPI_VERSION,
             ]
-    ];
+    ]
+   ];
 }
 
 function plugin_openrouter_check_config($verbose = false) {
