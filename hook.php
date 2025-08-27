@@ -1,29 +1,35 @@
 <?php
 
+use Config;
+use GlpiPlugin\Openrouter\Config as OpenrouterConfig;
+use TicketFollowup;
 use Toolbox;
 
-function plugin_openrouter_install() {
-    \Config::setConfigurationValues('plugin:openrouter', [
-        'openrouter_api_key' => '',
-        'openrouter_model_name' => '',
+function plugin_openrouter_install()
+{
+    Config::setConfigurationValues('plugin:openrouter', [
+        'openrouter_api_key'     => '',
+        'openrouter_model_name'  => '',
         'openrouter_bot_user_id' => 2,
         'openrouter_system_prompt' => ''
     ]);
     return true;
 }
 
-function plugin_openrouter_uninstall() {
-    $config = new \Config();
+function plugin_openrouter_uninstall()
+{
+    $config = new Config();
     $config->deleteByCriteria(['context' => 'plugin:openrouter']);
     return true;
 }
 
-function plugin_openrouter_item_add($item) {
+function plugin_openrouter_item_add($item)
+{
     if (!in_array($item->getType(), ['Ticket', 'TicketFollowup'])) {
         return;
     }
 
-    $config = \GlpiPlugin\Openrouter\Config::getConfig();
+    $config = OpenrouterConfig::getConfig();
     $api_key = $config['openrouter_api_key'] ?? '';
     $model_name = $config['openrouter_model_name'] ?? '';
     $bot_user_id = $config['openrouter_bot_user_id'] ?? 0;
@@ -82,7 +88,7 @@ function plugin_openrouter_item_add($item) {
     $response_content = $response['choices'][0]['message']['content'] ?? '';
 
     if (!empty($response_content)) {
-        $followup = new \TicketFollowup();
+        $followup = new TicketFollowup();
         $followup_data = [
             'tickets_id' => ($item->getType() === 'Ticket') ? $item->getID() : $item->fields['tickets_id'],
             'content' => $response_content . "\n\n<!-- openrouter_bot_response -->",
