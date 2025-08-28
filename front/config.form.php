@@ -8,12 +8,22 @@ use GlpiPlugin\Openrouter\Config;
 
 $plugin_config = new Config();
 $config = Config::getConfig();
-$canedit = Session::haveRight('config', UPDATE);
 
-if ($canedit && isset($_POST['update'])) {
-   $plugin_config->update($_POST);
+if (isset($_POST['update'])) {
+   if (isset($_POST['config_context'])) {
+      $plugin_config->update(
+         [
+            'config_context' => $_POST['config_context'],
+            'openrouter_api_key' => $_POST['openrouter_api_key'],
+            'openrouter_model_name' => $_POST['openrouter_model_name'],
+            'openrouter_system_prompt' => $_POST['openrouter_system_prompt'],
+            'openrouter_bot_user_id' => $_POST['openrouter_bot_user_id'],
+         ]
+      );
+   }
+
    // Redirect to the same page to avoid form resubmission
-   Html::redirect($_SERVER['PHP_SELF']);
+   Html::redirect($plugin_config->getFormURL());
 }
 
 Html::header(
@@ -24,10 +34,11 @@ Html::header(
    'openrouter'
 );
 
+$canedit = Session::haveRight('config', UPDATE);
 $models = Config::getModels();
 
 if ($canedit) {
-   echo "<form name='form' action='" . $_SERVER['PHP_SELF'] . "' method='post'>";
+   echo "<form name='form' action='" . $plugin_config->getFormURL() . "' method='post'>";
    echo "<input type='hidden' name='config_context' value='plugin:openrouter'>";
 
    echo "<div class='center' id='tabsbody'>";

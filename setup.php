@@ -14,20 +14,11 @@ require_once __DIR__ . '/src/Config.php';
 function plugin_init_openrouter() {
    global $PLUGIN_HOOKS;
 
+    $PLUGIN_HOOKS['config_page']['openrouter'] = 'front/config.form.php';
+
     $PLUGIN_HOOKS[Hooks::ITEM_ADD]['openrouter'] = [
         'Ticket'         => 'plugin_openrouter_item_add',
         'TicketFollowup' => 'plugin_openrouter_item_add',
-    ];
-}
-
-/**
- * Get the pages provided by the plugin.
- *
- * @return array
- */
-function plugin_openrouter_getAdditionalConfigPages() {
-    return [
-        'config' => 'front/config.form.php',
     ];
 }
 
