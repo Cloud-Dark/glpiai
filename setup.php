@@ -9,6 +9,7 @@ define("PLUGIN_OPENROUTER_MIN_GLPI_VERSION", "11.0.0");
 
 // Maximum GLPI version, exclusive
 define("PLUGIN_OPENROUTER_MAX_GLPI_VERSION", "11.1.0");
+require_once __DIR__ . '/src/Config.php';
 
 function plugin_init_openrouter() {
    global $PLUGIN_HOOKS;
