@@ -20,6 +20,16 @@ function plugin_init_openrouter() {
         'Ticket'         => 'plugin_openrouter_item_add',
         'TicketFollowup' => 'plugin_openrouter_item_add',
     ];
+
+    $PLUGIN_HOOKS['post_init']['openrouter'] = 'plugin_openrouter_post_init';
+}
+
+function plugin_openrouter_post_init() {
+    global $CFG_GLPI;
+
+    if (strpos($_SERVER['PHP_SELF'], '/front/ticket.form.php') !== false) {
+        echo '<script type="text/javascript" src="' . $CFG_GLPI['root_doc'] . '/plugins/openrouter/js/ticket.js"></script>';
+    }
 }
 
 function plugin_version_openrouter() {
