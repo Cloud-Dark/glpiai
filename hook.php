@@ -93,7 +93,7 @@ function plugin_openrouter_item_add($item)
         $toAdd = ['type' => "new",
                 'items_id' => $ticketId,
                 'itemstype' => 'Ticket',
-                'content' => $reponse_content . "\n\n<!-- openrouter_bot_response -->"
+                'content' => $response_content . "\n\n<!-- openrouter_bot_response -->"
         ];
         $followUp->add($toAdd);
     }
