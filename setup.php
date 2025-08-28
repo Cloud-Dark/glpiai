@@ -14,8 +14,7 @@ require_once __DIR__ . '/src/Config.php';
 function plugin_init_openrouter() {
    global $PLUGIN_HOOKS;
 
-    //add a tab to configuration
-    Plugin::registerClass(\GlpiPlugin\Openrouter\Config::class, ['addtabon' => \Config::class]);
+    $PLUGIN_HOOKS['config_page']['openrouter'] = 'front/config.form.php';
 
     $PLUGIN_HOOKS[Hooks::ITEM_ADD]['openrouter'] = [
         'Ticket'         => 'plugin_openrouter_item_add',
