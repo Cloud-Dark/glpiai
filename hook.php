@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . 'src/Config.php'
+require_once __DIR__ . 'src/Config.php';
 use Config;
 use GlpiPlugin\Openrouter\Config as OpenrouterConfig;
 use Toolbox;
