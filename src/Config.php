@@ -18,6 +18,11 @@ class Config extends GlpiConfig
         return GlpiConfig::getConfigurationValues('plugin:openrouter');
     }
 
+    static function setConfig($values)
+    {
+        return GlpiConfig::setConfigurationValues('plugin:openrouter',$values);
+    }
+
     static function getModels()
     {
         $ch = curl_init();

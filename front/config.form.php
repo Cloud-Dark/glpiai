@@ -10,20 +10,7 @@ $plugin_config = new Config();
 $config = Config::getConfig();
 
 if (isset($_POST['update'])) {
-   if (isset($_POST['config_context'])) {
-      $plugin_config->update(
-         [
-            'config_context' => $_POST['config_context'],
-            'openrouter_api_key' => $_POST['openrouter_api_key'],
-            'openrouter_model_name' => $_POST['openrouter_model_name'],
-            'openrouter_system_prompt' => $_POST['openrouter_system_prompt'],
-            'openrouter_bot_user_id' => $_POST['openrouter_bot_user_id'],
-         ]
-      );
-   }
-
-   // Redirect to the same page to avoid form resubmission
-   Html::redirect($plugin_config->getFormURL());
+   $plugin_config->setConfig($_POST);
 }
 
 Html::header(
