@@ -1,5 +1,5 @@
 <?php
-include ("../../inc/includes.php");
+global $CFG_GLPI;
 
 header("Content-Type: application/json");
 

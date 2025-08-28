@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const modelSelect = document.getElementById('openrouter_model_name');
     const currentModel = '<?php echo $config['openrouter_model_name'] ?? ''; ?>';
 
-    fetch('../plugins/openrouter/ajax/get_models.php')
+    fetch('../ajax/get_models.php')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
