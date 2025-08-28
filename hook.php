@@ -1,9 +1,10 @@
 <?php
 
+require_once __DIR__ . 'src/Config.php'
 use Config;
 use GlpiPlugin\Openrouter\Config as OpenrouterConfig;
-use TicketFollowup;
 use Toolbox;
+use ITILFollowup;
 
 function plugin_openrouter_install()
 {
@@ -88,13 +89,13 @@ function plugin_openrouter_item_add($item)
     $response_content = $response['choices'][0]['message']['content'] ?? '';
 
     if (!empty($response_content)) {
-        $followup = new TicketFollowup();
-        $followup_data = [
-            'tickets_id' => ($item->getType() === 'Ticket') ? $item->getID() : $item->fields['tickets_id'],
-            'content' => $response_content . "\n\n<!-- openrouter_bot_response -->",
-            'is_private' => 0,
-            'users_id' => $bot_user_id,
+        $ticketId = ($item->getType() === 'Ticket') ? $item->getID() : $item->fields['tickets_id'];
+        $followUp = new ITILFollowup();
+        $toAdd = ['type' => "new",
+                'items_id' => $ticketId,
+                'itemstype' => 'Ticket',
+                'content' => $reponse_content . "\n\n<!-- openrouter_bot_response -->"
         ];
-        $followup->add($followup_data);
+        $followUp->add($toAdd);
     }
 }
