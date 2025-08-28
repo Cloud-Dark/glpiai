@@ -11,6 +11,7 @@ $config = Config::getConfig();
 
 if (isset($_POST['update'])) {
    $plugin_config->setConfig($_POST);
+   Html::redirect($_SERVER['REQUEST_URI']);
 }
 
 Html::header(
