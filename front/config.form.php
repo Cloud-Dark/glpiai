@@ -5,10 +5,6 @@ include ("../../../inc/includes.php");
 use Glpi\Plugin\Hooks;
 use GlpiPlugin\Openrouter\Config;
 
-// Check if plugin is activated...
-if (!Plugin::isPluginActive('openrouter')) {
-   Html::displayNotFoundError();
-}
 
 $plugin_config = new Config();
 $config = Config::getConfig();
