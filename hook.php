@@ -79,7 +79,6 @@ function plugin_openrouter_item_add($item)
     $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     if (curl_errno($ch) || $http_code != 200) {
         $error_message = "OpenRouter API error: " . curl_error($ch) . " (HTTP code: " . $http_code . "). Response: " . $result;
-        Toolbox::logError($error_message);
         curl_close($ch);
         return;
     }
