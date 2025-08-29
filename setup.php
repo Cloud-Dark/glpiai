@@ -20,6 +20,69 @@ function plugin_init_openrouter() {
         'Ticket'         => 'plugin_openrouter_item_add',
         'TicketFollowup' => 'plugin_openrouter_item_add',
     ];
+
+    $PLUGIN_HOOKS['post_init']['openrouter'] = 'plugin_openrouter_post_init';
+}
+
+function plugin_openrouter_post_init() {
+    global $CFG_GLPI;
+
+if (strpos($_SERVER['REQUEST_URI'], '/front/ticket.form.php') !== false) {
+echo '<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Check if we are on a ticket page
+
+//    const ticketId = form.querySelector("input[name=\'id\']").value;
+    const urlParams = new URLSearchParams(window.location.search);
+    const ticketId = urlParams.get(\'id\');
+    if (!ticketId) {
+        return;
+    }
+
+setTimeout(() => { 
+    const timeline = document.querySelectorAll("div[class=\'rich_text_container\']");
+    const len = timeline.length;
+    console.log(len);
+    if (timeline) {
+        const lastMessage = timeline[len-1];
+        if (lastMessage && lastMessage.innerText.includes("<!-- openrouter_bot_response -->")) {
+            // Last message is from the bot, do nothing.
+                return;
+        }
+        else
+        {
+            setTimeout(() => {
+        const formData = new FormData();
+	const csrfToken = document.querySelector("input[name=\'_glpi_csrf_token\']").getAttribute("value");
+	formData.append("_glpi_csrf_token", csrfToken);
+        formData.append("ticket_id", ticketId);
+
+        fetch("../plugins/openrouter/ajax/create_followup.php", {
+            method: "POST",
+            body: formData,
+            credentials: "same-origin"
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Reload the page to show the new followup
+                location.reload();
+            } else {
+                console.error("Error creating followup:", data.error);
+            }
+        })
+        .catch(error => {
+            console.error("Error creating followup:", error);
+        });
+    }, 1000);
+        }
+    }
+   },3000);
+
+});
+</script>';
+    }
+
 }
 
 function plugin_version_openrouter() {

@@ -11,6 +11,7 @@ $config = Config::getConfig();
 
 if (isset($_POST['update'])) {
    $plugin_config->setConfig($_POST);
+   Html::redirect($_SERVER['REQUEST_URI']);
 }
 
 Html::header(
@@ -22,7 +23,6 @@ Html::header(
 );
 
 $canedit = Session::haveRight('config', UPDATE);
-$models = Config::getModels();
 
 if ($canedit) {
    echo "<form name='form' action='" . $plugin_config->getFormURL() . "' method='post'>";
@@ -42,11 +42,8 @@ if ($canedit) {
    echo "<tr class='tab_bg_1'>";
    echo "<td>" . __('OpenRouter Model Name', 'openrouter') . "</td>";
    echo "<td>";
-   echo "<select name='openrouter_model_name'>";
-   foreach ($models as $model) {
-       $selected = ($model['id'] == ($config['openrouter_model_name'] ?? '')) ? 'selected' : '';
-       echo "<option value='" . $model['id'] . "' " . $selected . ">" . $model['name'] . "</option>";
-   }
+   echo "<select name='openrouter_model_name' id='openrouter_model_name'>";
+   echo "<option value=''>" . __('Loading...') . "</option>";
    echo "</select>";
    echo "</td>";
    echo "</tr>";
@@ -74,5 +71,38 @@ if ($canedit) {
    echo "</div>";
    Html::closeForm();
 }
+?>
 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const modelSelect = document.getElementById('openrouter_model_name');
+    const currentModel = '<?php echo $config['openrouter_model_name'] ?? ''; ?>';
+
+    fetch('../ajax/get_models.php')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(models => {
+            modelSelect.innerHTML = '<option value=""><?php echo __('Select a model'); ?></option>';
+            models.forEach(model => {
+                const option = document.createElement('option');
+                option.value = model.id;
+                option.textContent = model.name;
+                if (model.id === currentModel) {
+                    option.selected = true;
+                }
+                modelSelect.appendChild(option);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching models:', error);
+            modelSelect.innerHTML = '<option value=""><?php echo __('Error loading models'); ?></option>';
+        });
+});
+</script>
+
+<?php
 Html::footer();
