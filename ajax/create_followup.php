@@ -1,4 +1,6 @@
 <?php
+
+error_reporting(E_ERROR);
 global $CFG_GLPI;
 
 use GlpiPlugin\Openrouter\Config;
