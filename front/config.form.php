@@ -60,6 +60,17 @@ if ($canedit) {
    echo "<td><input type='number' name='openrouter_bot_user_id' value='" . ($config['openrouter_bot_user_id'] ?? 0) . "'></td>";
    echo "</tr>";
 
+   // Max Api Usage Per Day
+   echo "<tr class='tab_bg_1'>";
+   echo "<td>" . __('Max api usage per day', 'openrouter') . "</td>";
+   echo "<td><input type='number' name='openrouter_max_api_usage_count' value='" . ($config['openrouter_max_api_usage_count'] ?? 50) . "'></td>";
+   echo "</tr>";
+   // Reset Day
+   echo "<tr class='tab_bg_1'>";
+   echo "<td>" . __('API Usage Reset Time', 'openrouter') . "</td>";
+   echo "<td><input type='datetime-local' name='openrouter_api_reset_day' value='" . ($config['openrouter_api_reset_day'] ?? new DateTime()) . "'></td>";
+   echo "</tr>";
+
    // Save Button
    echo "<tr class='tab_bg_1'>";
    echo "<td colspan='2' class='center'>";

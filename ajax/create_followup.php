@@ -18,6 +18,51 @@ if (!isset($_POST['ticket_id'])) {
 $ticket_id = $_POST['ticket_id'];
 
 $config = Config::getConfig();
+
+if(isset($config['openrouter_max_api_usage_count']) && isset($config['openrouter_api_usage_count']) && isset($config['openrouter_api_reset_day']))
+{
+    $now = new DateTime();
+    $reset_day = new DateTime($config['openrouter_api_reset_day']);
+    if($now >= $reset_day)
+    {
+        $config['openrouter_api_usage_count'] = 0;
+        // Set next reset day to the same time tomorrow
+        $new = (new DateTime('now'))->add(new DateInterval('P1D'));
+        $new->setTime(
+            (int)$config['openrouter_api_reset_day']->format('H'),
+            (int)$config['openrouter_api_reset_day']->format('i'),
+            (int)$config['openrouter_api_reset_day']->format('s')
+        );
+        $config['openrouter_api_reset_day'] = $new;
+        Config::setConfig($config);
+    }
+    if($config['openrouter_api_usage_count'] >= $config['openrouter_max_api_usage_count'])
+    {
+        http_response_code(429);
+        echo json_encode(['error' => 'API usage limit reached for today']);
+        exit;
+    }
+    else
+    {
+        // Increment usage count
+        $config['openrouter_api_usage_count']++;
+        Config::setConfig($config);
+    }
+}
+else
+{
+    // Initialize usage count and reset day if not set
+    if(!isset($config['openrouter_api_usage_count']))
+    {
+        $config['openrouter_api_usage_count'] = 1;
+    }
+    if(!isset($config['openrouter_api_reset_day']))
+    {
+        $config['openrouter_api_reset_day'] = (new DateTime('now'))->add(new DateInterval('P1D'));
+    }
+    Config::setConfig($config);
+}
+
 $api_key = $config['openrouter_api_key'] ?? '';
 $model_name = $config['openrouter_model_name'] ?? '';
 $bot_user_id = $config['openrouter_bot_user_id'] ?? 0;
