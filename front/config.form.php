@@ -81,7 +81,7 @@ if ($canedit) {
     // Current Usage Count (read-only)
     echo "<tr class='tab_bg_1'>";
     echo "<td>" . __('Current API Usage Count', 'openrouter') . "</td>";
-    echo "<td><input type='number' name='openrouter_api_usage_count' value='" . ($config['openrouter_api_usage_count'] ?? 0) . "' readonly></td>";
+    echo "<td><span>" . ($config['openrouter_api_usage_count'] ?? 0) . "</span></td>";
     echo "</tr>";
    // Save Button
    echo "<tr class='tab_bg_1'>";
