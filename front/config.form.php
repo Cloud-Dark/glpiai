@@ -10,6 +10,13 @@ $plugin_config = new Config();
 $config = Config::getConfig();
 
 if (isset($_POST['update'])) {
+    // Convert reset day to DateTime object if provided
+    if (!empty($_POST['openrouter_api_reset_day'])) {
+        $resetDay = DateTime::createFromFormat('Y-m-d\TH:i', $_POST['openrouter_api_reset_day']);
+        if ($resetDay) {
+            $_POST['openrouter_api_reset_day'] = $resetDay;
+        }
+    }
    $plugin_config->setConfig($_POST);
    Html::redirect($_SERVER['REQUEST_URI']);
 }
@@ -68,7 +75,7 @@ if ($canedit) {
    // Reset Day
    echo "<tr class='tab_bg_1'>";
    echo "<td>" . __('API Usage Reset Time', 'openrouter') . "</td>";
-   echo "<td><input type='datetime-local' name='openrouter_api_reset_day' value='" . ($config['openrouter_api_reset_day'] ?? new DateTime()) . "'></td>";
+   echo "<td><input type='datetime-local' name='openrouter_api_reset_day' value='" . ($config['openrouter_api_reset_day'] ?? new DateTime()->format('Y-m-d\TH:i')) . "'></td>";
    echo "</tr>";
 
    // Save Button
