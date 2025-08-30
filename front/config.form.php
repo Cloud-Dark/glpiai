@@ -72,10 +72,18 @@ if ($canedit) {
    echo "<td>" . __('Max api usage per day', 'openrouter') . "</td>";
    echo "<td><input type='number' name='openrouter_max_api_usage_count' value='" . ($config['openrouter_max_api_usage_count'] ?? 50) . "'></td>";
    echo "</tr>";
+
+   if (!empty($config['openrouter_api_reset_day']) && $config['openrouter_api_reset_day'] instanceof DateTime) {
+        $value = $config['openrouter_api_reset_day']->format('Y-m-d\TH:i');
+    } else {
+        // Sinon on prend la date/heure actuelle
+        $value = (new DateTime())->format('Y-m-d\TH:i');
+    }
+
    // Reset Day
    echo "<tr class='tab_bg_1'>";
    echo "<td>" . __('API Usage Reset Time', 'openrouter') . "</td>";
-   echo "<td><input type='datetime-local' name='openrouter_api_reset_day' value='" . ($config['openrouter_api_reset_day'] ?? new DateTime()->format('Y-m-d\TH:i')) . "'></td>";
+   echo "<td><input type='datetime-local' name='openrouter_api_reset_day' value="<?= htmlspecialchars($value) ?>"></td>";
    echo "</tr>";
 
    // Save Button
