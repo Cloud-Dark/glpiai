@@ -78,7 +78,11 @@ if ($canedit) {
    echo "<td>" . __('API Usage Reset Time', 'openrouter') . "</td>";
    echo "<td><input type='datetime-local' name='openrouter_api_reset_day' value='" . htmlspecialchars($value) . "'></td>";
    echo "</tr>";
-
+    // Current Usage Count (read-only)
+    echo "<tr class='tab_bg_1'>";
+    echo "<td>" . __('Current API Usage Count', 'openrouter') . "</td>";
+    echo "<td><input type='number' name='openrouter_api_usage_count' value='" . ($config['openrouter_api_usage_count'] ?? 0) . "' readonly></td>";
+    echo "</tr>";
    // Save Button
    echo "<tr class='tab_bg_1'>";
    echo "<td colspan='2' class='center'>";
