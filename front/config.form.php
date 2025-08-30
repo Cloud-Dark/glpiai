@@ -10,13 +10,6 @@ $plugin_config = new Config();
 $config = Config::getConfig();
 
 if (isset($_POST['update'])) {
-    // Convert reset day to DateTime object if provided
-    if (!empty($_POST['openrouter_api_reset_day'])) {
-        $resetDay = DateTime::createFromFormat('Y-m-d\TH:i', $_POST['openrouter_api_reset_day']);
-        if ($resetDay) {
-            $_POST['openrouter_api_reset_day'] = $resetDay;
-        }
-    }
    $plugin_config->setConfig($_POST);
    Html::redirect($_SERVER['REQUEST_URI']);
 }
@@ -73,8 +66,8 @@ if ($canedit) {
    echo "<td><input type='number' name='openrouter_max_api_usage_count' value='" . ($config['openrouter_max_api_usage_count'] ?? 50) . "'></td>";
    echo "</tr>";
 
-   if (!empty($config['openrouter_api_reset_day']) && $config['openrouter_api_reset_day'] instanceof DateTime) {
-        $value = $config['openrouter_api_reset_day']->format('Y-m-d\TH:i');
+   if (!empty($config['openrouter_api_reset_day'])) {
+        $value = $config['openrouter_api_reset_day'];
     } else {
         // Sinon on prend la date/heure actuelle
         $value = (new DateTime())->format('Y-m-d\TH:i');
@@ -83,7 +76,7 @@ if ($canedit) {
    // Reset Day
    echo "<tr class='tab_bg_1'>";
    echo "<td>" . __('API Usage Reset Time', 'openrouter') . "</td>";
-   echo "<td><input type='datetime-local' name='openrouter_api_reset_day' value="<?= htmlspecialchars($value) ?>"></td>";
+   echo "<td><input type='datetime-local' name='openrouter_api_reset_day' value='" . htmlspecialchars($value) . "'></td>";
    echo "</tr>";
 
    // Save Button

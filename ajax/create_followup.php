@@ -23,17 +23,20 @@ if(isset($config['openrouter_max_api_usage_count']) && isset($config['openrouter
 {
     $now = new DateTime();
     $reset_day = new DateTime($config['openrouter_api_reset_day']);
+
     if($now >= $reset_day)
     {
         $config['openrouter_api_usage_count'] = 0;
         // Set next reset day to the same time tomorrow
         $new = (new DateTime('now'))->add(new DateInterval('P1D'));
+        $old = new DateTime($config['openrouter_api_reset_day']); // reconvertir en DateTime
+
         $new->setTime(
-            (int)$config['openrouter_api_reset_day']->format('H'),
-            (int)$config['openrouter_api_reset_day']->format('i'),
-            (int)$config['openrouter_api_reset_day']->format('s')
+            (int)$old->format('H'),
+            (int)$old->format('i'),
+            (int)$old->format('s')
         );
-        $config['openrouter_api_reset_day'] = $new;
+        $config['openrouter_api_reset_day'] = $new->format('Y-m-d H:i:s');
         Config::setConfig($config);
     }
     if($config['openrouter_api_usage_count'] >= $config['openrouter_max_api_usage_count'])
@@ -58,7 +61,8 @@ else
     }
     if(!isset($config['openrouter_api_reset_day']))
     {
-        $config['openrouter_api_reset_day'] = (new DateTime('now'))->add(new DateInterval('P1D'));
+        $newval = (new DateTime('now'))->add(new DateInterval('P1D'));
+        $config['openrouter_api_reset_day'] = $newval->format('Y-m-d H:i:s');
     }
     Config::setConfig($config);
 }
