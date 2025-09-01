@@ -4,7 +4,7 @@ use Glpi\Plugin\Hooks;
 use Plugin;
 use GlpiPlugin\Openrouter\ItemForm;
 
-define('PLUGIN_OPENROUTER_VERSION', '1.2.1');
+define('PLUGIN_OPENROUTER_VERSION', '1.3.0');
 
 // Minimal GLPI version, inclusive
 define("PLUGIN_OPENROUTER_MIN_GLPI_VERSION", "11.0.0");
