@@ -18,19 +18,9 @@ function plugin_init_openrouter() {
 
     $PLUGIN_HOOKS['config_page']['openrouter'] = 'front/config.form.php';
     $PLUGIN_HOOKS[Hooks::PRE_ITIL_INFO_SECTION]['openrouter']  = [ItemForm::class, 'preSection'];
-    $PLUGIN_HOOKS[Hooks::ITEM_ADD]['openrouter'] = [
-        'Ticket'         => 'plugin_openrouter_item_add',
-        'TicketFollowup' => 'plugin_openrouter_item_add',
+    $PLUGIN_HOOKS['pre_item_update']['openrouter'] = [
+    'Ticket' => 'plugin_openrouter_pre_item_update'
     ];
-/*
-    $PLUGIN_HOOKS['item_add']['openrouter'] = [
-        'Ticket' => 'plugin_openrouter_save_disabled_state',
-    ];
-*/
-    $PLUGIN_HOOKS[Hooks::ITEM_ADD]['openrouter'] = [Ticket::class => 'plugin_openrouter_save_disabled_state'];
-
-    $PLUGIN_HOOKS[Hooks::ITEM_UPDATE]['openrouter'] = [Ticket::class => 'plugin_openrouter_save_disabled_state'];
-
     $PLUGIN_HOOKS['post_init']['openrouter'] = 'plugin_openrouter_post_init';
 }
 

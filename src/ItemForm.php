@@ -65,7 +65,7 @@ class ItemForm
         $query = "SELECT `tickets_id` FROM `$table_name` WHERE `tickets_id` = '$ticket_id'";
         $result = $DB->doQuery($query);
         $is_disabled = $DB->numrows($result) > 0;
-
+	file_put_contents('/tmp/openrouter_debug.log',date('c') . "is_disabled" .$is_disabled . PHP_EOL,FILE_APPEND);
         echo TemplateRenderer::getInstance()->renderFromStringTemplate(<<<TWIG
       <section class="accordion-item" aria-label="a label">
       <h2 class="accordion-header" id="openrouter-heading" title="openrouter-heading-id" data-bs-toggle="tooltip">
@@ -78,13 +78,13 @@ class ItemForm
       </h2>
       <div id="openrouter-pre-content" class="accordion-collapse collapse" aria-labelledby="openrouter-pre-content-heading">
          <div class="accordion-body">
-            <input type="checkbox" name="openrouter_bot_disabled" value="1" ' . ($is_disabled ? 'checked' : '') . ' id="openrouter_bot_disabled_checkbox">
+            <input type="checkbox" name="openrouter_bot_disabled" value="1" {% if is_disabled == 1 %}checked{% endif %}  id="openrouter_bot_disabled_checkbox">
                 <label for="openrouter_bot_disabled_checkbox">Disable OpenRouter Bot for this ticket</label>
             </input>
          </div>
       </div>
    </section>
-TWIG, []);
+TWIG, ['is_disabled' => $is_disabled]);
         }
     }
 }

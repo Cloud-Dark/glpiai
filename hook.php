@@ -45,10 +45,9 @@ function plugin_openrouter_uninstall()
     return true;
 }
 
-function plugin_openrouter_save_disabled_state($ticket)
-{
+function plugin_openrouter_pre_item_update($item) {
     global $DB;
-    $ticket_id = (int) $ticket->getID();
+    $ticket_id = (int) $item->getID();
 
     if ($ticket_id > 0) {
         $table_name = 'glpi_plugin_openrouter_disabled_tickets';
@@ -64,6 +63,8 @@ function plugin_openrouter_save_disabled_state($ticket)
         }
     }
 }
+
+
 
 function plugin_openrouter_item_add($item)
 {
