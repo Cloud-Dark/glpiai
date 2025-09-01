@@ -21,6 +21,9 @@ function plugin_init_openrouter() {
     $PLUGIN_HOOKS['pre_item_update']['openrouter'] = [
     'Ticket' => 'plugin_openrouter_pre_item_update'
     ];
+    $PLUGIN_HOOKS['item_add']['openrouter'] = [
+    'Ticket' => 'plugin_openrouter_pre_item_update'
+    ];
     $PLUGIN_HOOKS['post_init']['openrouter'] = 'plugin_openrouter_post_init';
 }
 

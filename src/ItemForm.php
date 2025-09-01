@@ -55,16 +55,18 @@ class ItemForm
         $options = $params['options'];
 
         $ticket = $params['item'];
-        if (is_null($ticket) || !$ticket->getID()) {
-            return;
+        $ticket_id = 0;
+        if (!is_null($ticket) || $ticket->getID()) {
+            $ticket_id = $ticket->getID();
         }
-        $ticket_id = $ticket->getID();
 
+    $is_disabled = 0;
     if ($ticket_id > 0) {
         $table_name = 'glpi_plugin_openrouter_disabled_tickets';
         $query = "SELECT `tickets_id` FROM `$table_name` WHERE `tickets_id` = '$ticket_id'";
         $result = $DB->doQuery($query);
         $is_disabled = $DB->numrows($result) > 0;
+    }
 	file_put_contents('/tmp/openrouter_debug.log',date('c') . "is_disabled" .$is_disabled . PHP_EOL,FILE_APPEND);
         echo TemplateRenderer::getInstance()->renderFromStringTemplate(<<<TWIG
       <section class="accordion-item" aria-label="a label">
@@ -85,6 +87,5 @@ class ItemForm
       </div>
    </section>
 TWIG, ['is_disabled' => $is_disabled]);
-        }
     }
 }
