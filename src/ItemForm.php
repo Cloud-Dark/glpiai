@@ -70,14 +70,14 @@ class ItemForm
 	file_put_contents('/tmp/openrouter_debug.log',date('c') . "is_disabled" .$is_disabled . PHP_EOL,FILE_APPEND);
         echo TemplateRenderer::getInstance()->renderFromStringTemplate(<<<TWIG
       <section class="accordion-item" aria-label="a label">
-      <h2 class="accordion-header" id="openrouter-heading" title="openrouter-heading-id" data-bs-toggle="tooltip">
+      <div class="accordion-header" id="openrouter-heading" title="openrouter-heading-id" data-bs-toggle="tooltip">
          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#openrouter-pre-content" aria-expanded="true" aria-controls="openrouter-pre-content">
             <i class="ti ti-world me-1"></i>
             <span class="item-title">
                OpenRouter Options
             </span>
          </button>
-      </h2>
+      </div>
       <div id="openrouter-pre-content" class="accordion-collapse collapse" aria-labelledby="openrouter-pre-content-heading">
          <div class="accordion-body">
             <input type="checkbox" name="openrouter_bot_disabled" value="1" {% if is_disabled == 1 %}checked{% endif %}  id="openrouter_bot_disabled_checkbox">
