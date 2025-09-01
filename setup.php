@@ -1,6 +1,8 @@
 <?php
 
 use Glpi\Plugin\Hooks;
+use Plugin;
+use GlpiPlugin\Openrouter\ItemForm;
 
 define('PLUGIN_OPENROUTER_VERSION', '1.2.1');
 

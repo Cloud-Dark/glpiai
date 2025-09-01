@@ -63,7 +63,7 @@ class ItemForm
     if ($ticket_id > 0) {
         $table_name = 'glpi_plugin_openrouter_disabled_tickets';
         $query = "SELECT `tickets_id` FROM `$table_name` WHERE `tickets_id` = '$ticket_id'";
-        $result = $DB->query($query);
+        $result = $DB->doQuery($query);
         $is_disabled = $DB->numrows($result) > 0;
 
         echo TemplateRenderer::getInstance()->renderFromStringTemplate(<<<TWIG
@@ -78,7 +78,9 @@ class ItemForm
       </h2>
       <div id="openrouter-pre-content" class="accordion-collapse collapse" aria-labelledby="openrouter-pre-content-heading">
          <div class="accordion-body">
-            <input type="checkbox" name="openrouter_bot_disabled" value="1" ' . ($is_disabled ? 'checked' : '') . ' id="openrouter_bot_disabled_checkbox">;
+            <input type="checkbox" name="openrouter_bot_disabled" value="1" ' . ($is_disabled ? 'checked' : '') . ' id="openrouter_bot_disabled_checkbox">
+                <label for="openrouter_bot_disabled_checkbox">Disable OpenRouter Bot for this ticket</label>
+            </input>
          </div>
       </div>
    </section>
