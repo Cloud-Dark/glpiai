@@ -12,15 +12,22 @@ define("PLUGIN_OPENROUTER_MAX_GLPI_VERSION", "11.1.0");
 require_once __DIR__ . '/src/Config.php';
 
 function plugin_init_openrouter() {
-   global $PLUGIN_HOOKS;
+   global $PLUGIN_HOOKS,$DB, $CFG_GLPI;;
 
     $PLUGIN_HOOKS['config_page']['openrouter'] = 'front/config.form.php';
-
+    $PLUGIN_HOOKS[Hooks::PRE_ITIL_INFO_SECTION]['openrouter']  = [ItemForm::class, 'preSection'];
     $PLUGIN_HOOKS[Hooks::ITEM_ADD]['openrouter'] = [
         'Ticket'         => 'plugin_openrouter_item_add',
         'TicketFollowup' => 'plugin_openrouter_item_add',
     ];
 
+    $PLUGIN_HOOKS['item_add']['openrouter'] = [
+        'Ticket' => 'plugin_openrouter_save_disabled_state',
+    ];
+
+    $PLUGIN_HOOKS['item_update']['openrouter'] = [
+        'Ticket' => 'plugin_openrouter_save_disabled_state'
+    ];
     $PLUGIN_HOOKS['post_init']['openrouter'] = 'plugin_openrouter_post_init';
 }
 
@@ -51,6 +58,11 @@ setTimeout(() => {
         }
         else
         {
+            const disableBotCheckbox = document.getElementById(\'openrouter_bot_disabled_checkbox\');
+            if (disableBotCheckbox && disableBotCheckbox.checked) {
+                // Bot is disabled, do nothing.
+                return;
+            }
             setTimeout(() => {
         const formData = new FormData();
 	const csrfToken = document.querySelector("input[name=\'_glpi_csrf_token\']").getAttribute("value");
