@@ -22,14 +22,15 @@ function plugin_init_openrouter() {
         'Ticket'         => 'plugin_openrouter_item_add',
         'TicketFollowup' => 'plugin_openrouter_item_add',
     ];
-
+/*
     $PLUGIN_HOOKS['item_add']['openrouter'] = [
         'Ticket' => 'plugin_openrouter_save_disabled_state',
     ];
+*/
+    $PLUGIN_HOOKS[Hooks::ITEM_ADD]['openrouter'] = [Ticket::class => 'plugin_openrouter_save_disabled_state'];
 
-    $PLUGIN_HOOKS['item_update']['openrouter'] = [
-        'Ticket' => 'plugin_openrouter_save_disabled_state'
-    ];
+    $PLUGIN_HOOKS[Hooks::ITEM_UPDATE]['openrouter'] = [Ticket::class => 'plugin_openrouter_save_disabled_state'];
+
     $PLUGIN_HOOKS['post_init']['openrouter'] = 'plugin_openrouter_post_init';
 }
 
@@ -88,10 +89,10 @@ setTimeout(() => {
         .catch(error => {
             console.error("Error creating followup:", error);
         });
-    }, 1000);
+    }, 5000);
         }
     }
-   },3000);
+   },5000);
 
 });
 </script>';
