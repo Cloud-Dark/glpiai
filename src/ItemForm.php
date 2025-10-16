@@ -74,7 +74,7 @@ class ItemForm
          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#openrouter-pre-content" aria-expanded="true" aria-controls="openrouter-pre-content">
             <i class="ti ti-world me-1"></i>
             <span class="item-title">
-               OpenRouter Options
+               AI Assistant Options
             </span>
          </button>
       </div>

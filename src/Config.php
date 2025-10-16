@@ -10,7 +10,8 @@ class Config extends GlpiConfig
 {
     static function getTypeName($nb = 0)
     {
-        return __('OpenRouter', 'openrouter');
+        // Return plugin name that works for all providers
+        return __('AI Assistant', 'openrouter');
     }
 
     static function getConfig()
