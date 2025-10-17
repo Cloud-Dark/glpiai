@@ -64,4 +64,4 @@ Before the plugin can work, you need to configure it. After installing and activ
 
 ---
 
-Made with ❤️ by [Brice Fourie](https://github.com/bricefourie) and maintained by [Cloud-Dark](https://github.com/Cloud-Dark)
+Made with ❤️ by [Cloud-Dark](https://github.com/Cloud-Dark)
