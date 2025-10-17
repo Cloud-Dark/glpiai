@@ -99,7 +99,7 @@ function plugin_version_openrouter() {
         'version'        => PLUGIN_OPENROUTER_VERSION,
         'author'         => 'Brice FOURIE',
         'license'        => 'Apache 2.0',
-        'homepage'       => 'https://github.com/bricefourie/glpiai-openrouter',
+        'homepage'       => 'https://github.com/Cloud-Dark/glpiai',
         'requirements'   => [
             'glpi' => [
                 'min' => PLUGIN_OPENROUTER_MIN_GLPI_VERSION,

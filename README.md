@@ -21,7 +21,7 @@ The plugin uses a JavaScript trigger on the ticket page. When a user opens a tic
 
 ## 💾 Installation
 
-1.  **Download**: Download the latest release from the [GitHub releases page](https://github.com/bricefourie/glpiai-openrouter/releases).
+1.  **Download**: Download the latest release from the [GitHub releases page](https://github.com/Cloud-Dark/glpiai/releases).
 2.  **Extract**: Extract the archive into the `plugins` directory of your GLPI installation. The plugin will be in a directory named `openrouter` (despite the name, it supports all providers).
 3.  **Install & Activate**: In GLPI, navigate to `Setup > Plugins`.
 4.  Install and activate the "AI Assistant" plugin (appears under the 'openrouter' name in GLPI).
@@ -64,4 +64,4 @@ Before the plugin can work, you need to configure it. After installing and activ
 
 ---
 
-Made with ❤️ by [Brice Fourie](https://github.com/bricefourie)
+Made with ❤️ by [Brice Fourie](https://github.com/bricefourie) and maintained by [Cloud-Dark](https://github.com/Cloud-Dark)
